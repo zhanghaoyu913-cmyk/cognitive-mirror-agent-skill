@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/cognitive-mirror/memory_update_schema.json",
+  "title": "Cognitive Mirror Memory Update",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "observed_pattern",
+    "evidence",
+    "confidence",
+    "possible_intervention",
+    "next_growth_suggestion"
+  ],
+  "properties": {
+    "observed_pattern": {
+      "type": "string",
+      "minLength": 1
+    },
+    "evidence": {
+      "type": "string",
+      "minLength": 1
+    },
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "possible_intervention": {
+      "type": "string",
+      "minLength": 1
+    },
+    "next_growth_suggestion": {
+      "type": "string",
+      "minLength": 1
+    }
+  }
+}

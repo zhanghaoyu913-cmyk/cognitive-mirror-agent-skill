@@ -1,0 +1,4 @@
+interface:
+  display_name: "Cognitive Mirror"
+  short_description: "Reflect on thinking patterns and reduce AI overdependence."
+  default_prompt: "Use $cognitive-mirror to reflect on my thinking pattern and help me reason independently before giving final advice."

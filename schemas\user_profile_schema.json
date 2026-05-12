@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.com/cognitive-mirror/user_profile_schema.json",
+  "title": "Cognitive Mirror User Profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "profile_version",
+    "learning_style",
+    "reasoning_style",
+    "decision_style",
+    "common_blockers",
+    "ai_usage_patterns",
+    "growth_goals",
+    "assistant_adaptations",
+    "last_reviewed"
+  ],
+  "properties": {
+    "profile_version": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "learning_style": {
+      "$ref": "#/$defs/profile_entries"
+    },
+    "reasoning_style": {
+      "$ref": "#/$defs/profile_entries"
+    },
+    "decision_style": {
+      "$ref": "#/$defs/profile_entries"
+    },
+    "common_blockers": {
+      "$ref": "#/$defs/profile_entries"
+    },
+    "ai_usage_patterns": {
+      "$ref": "#/$defs/profile_entries"
+    },
+    "growth_goals": {
+      "$ref": "#/$defs/profile_entries"
+    },
+    "assistant_adaptations": {
+      "$ref": "#/$defs/profile_entries"
+    },
+    "last_reviewed": {
+      "type": "string",
+      "format": "date"
+    }
+  },
+  "$defs": {
+    "confidence": {
+      "type": "string",
+      "enum": [
+        "low",
+        "medium",
+        "high"
+      ]
+    },
+    "profile_entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "summary",
+        "evidence",
+        "confidence",
+        "updated_at"
+      ],
+      "properties": {
+        "summary": {
+          "type": "string",
+          "minLength": 1
+        },
+        "evidence": {
+          "type": "string",
+          "minLength": 1
+        },
+        "confidence": {
+          "$ref": "#/$defs/confidence"
+        },
+        "updated_at": {
+          "type": "string",
+          "format": "date"
+        }
+      }
+    },
+    "profile_entries": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/profile_entry"
+      }
+    }
+  }
+}

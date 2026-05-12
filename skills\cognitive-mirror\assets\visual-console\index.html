@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cognitive Mirror Console</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="control-pane" aria-label="Cognitive Mirror controls">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Cognitive Mirror</p>
+            <h1>Mode Console</h1>
+          </div>
+          <div class="status-pill" id="saveStatus" role="status">Local</div>
+        </header>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Response Mode</h2>
+            <p>Choose how the agent should respond in this session.</p>
+          </div>
+          <div class="mode-grid" id="modeGrid">
+            <button class="mode-option is-active" type="button" data-mode="direct">
+              <span class="mode-code">D</span>
+              <span>
+                <strong>Direct</strong>
+                <small>Facts, commands, urgent execution.</small>
+              </span>
+            </button>
+            <button class="mode-option" type="button" data-mode="coaching">
+              <span class="mode-code">C</span>
+              <span>
+                <strong>Coaching</strong>
+                <small>Hints and scaffolds before full answers.</small>
+              </span>
+            </button>
+            <button class="mode-option" type="button" data-mode="challenge">
+              <span class="mode-code">H</span>
+              <span>
+                <strong>Challenge</strong>
+                <small>Require first-pass reasoning.</small>
+              </span>
+            </button>
+            <button class="mode-option" type="button" data-mode="divergent">
+              <span class="mode-code">V</span>
+              <span>
+                <strong>Divergent</strong>
+                <small>Alternatives, risks, hidden assumptions.</small>
+              </span>
+            </button>
+            <button class="mode-option" type="button" data-mode="reflection">
+              <span class="mode-code">R</span>
+              <span>
+                <strong>Reflection</strong>
+                <small>Summarize patterns and growth steps.</small>
+              </span>
+            </button>
+          </div>
+        </section>
+
+        <section class="settings-grid">
+          <div class="panel compact">
+            <label for="privacyLevel">Privacy Level</label>
+            <select id="privacyLevel">
+              <option value="strict">Strict: ask before durable memory</option>
+              <option value="balanced">Balanced: summarize only</option>
+              <option value="open">Open: user-approved profile updates</option>
+            </select>
+          </div>
+          <div class="panel compact">
+            <label for="interventionStrength">Intervention Strength</label>
+            <select id="interventionStrength">
+              <option value="light">Light</option>
+              <option value="balanced" selected>Balanced</option>
+              <option value="firm">Firm</option>
+            </select>
+          </div>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Session Request</h2>
+            <p>Write what you want the agent to help with.</p>
+          </div>
+          <textarea id="sessionRequest" rows="5" placeholder="Example: I want to evaluate whether this research direction is worth doing."></textarea>
+        </section>
+
+        <section class="panel">
+          <div class="panel-heading">
+            <h2>Generated Agent Prompt</h2>
+            <p>Use this prompt to invoke the skill with your selected mode.</p>
+          </div>
+          <textarea id="agentPrompt" rows="8" readonly></textarea>
+          <div class="button-row">
+            <button class="primary" type="button" id="copyPrompt">Copy Prompt</button>
+            <button type="button" id="resetConfig">Reset</button>
+          </div>
+        </section>
+      </section>
+
+      <section class="profile-pane" aria-label="Cognitive profile editor">
+        <div class="tabs" role="tablist" aria-label="Profile sections">
+          <button class="tab is-active" type="button" data-tab="profile">Profile</button>
+          <button class="tab" type="button" data-tab="updates">Memory Update</button>
+          <button class="tab" type="button" data-tab="privacy">Privacy</button>
+        </div>
+
+        <section class="tab-panel is-active" id="profileTab">
+          <div class="panel-heading wide">
+            <div>
+              <h2>Editable Profile</h2>
+              <p>Local browser storage. Export JSON when you want a portable copy.</p>
+            </div>
+            <div class="button-row">
+              <button type="button" id="importProfile">Import</button>
+              <button type="button" id="exportProfile">Export</button>
+              <button class="danger" type="button" id="clearProfile">Clear</button>
+              <input class="visually-hidden" type="file" id="profileFile" accept="application/json">
+            </div>
+          </div>
+
+          <form class="entry-form" id="entryForm">
+            <div>
+              <label for="entryCategory">Category</label>
+              <select id="entryCategory">
+                <option value="learning_style">Learning style</option>
+                <option value="reasoning_style">Reasoning style</option>
+                <option value="decision_style">Decision style</option>
+                <option value="common_blockers">Common blockers</option>
+                <option value="ai_usage_patterns">AI usage patterns</option>
+                <option value="growth_goals">Growth goals</option>
+                <option value="assistant_adaptations">Assistant adaptations</option>
+              </select>
+            </div>
+            <div>
+              <label for="entryConfidence">Confidence</label>
+              <select id="entryConfidence">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </div>
+            <div class="span-two">
+              <label for="entrySummary">Summary</label>
+              <input id="entrySummary" type="text" placeholder="High-level pattern, not raw private details.">
+            </div>
+            <div class="span-two">
+              <label for="entryEvidence">Evidence</label>
+              <input id="entryEvidence" type="text" placeholder="Short non-sensitive evidence summary.">
+            </div>
+            <button class="primary span-two" type="submit">Add Profile Entry</button>
+          </form>
+
+          <div class="profile-list" id="profileList" aria-live="polite"></div>
+        </section>
+
+        <section class="tab-panel" id="updatesTab">
+          <div class="panel-heading">
+            <h2>Memory Update Draft</h2>
+            <p>Draft a reviewable update before saving anything durable.</p>
+          </div>
+          <div class="memory-grid">
+            <label>
+              Observed pattern
+              <textarea id="observedPattern" rows="3"></textarea>
+            </label>
+            <label>
+              Evidence
+              <textarea id="updateEvidence" rows="3"></textarea>
+            </label>
+            <label>
+              Possible intervention
+              <textarea id="possibleIntervention" rows="3"></textarea>
+            </label>
+            <label>
+              Next growth suggestion
+              <textarea id="nextGrowthSuggestion" rows="3"></textarea>
+            </label>
+            <label>
+              Confidence
+              <select id="updateConfidence">
+                <option value="low">Low</option>
+                <option value="medium" selected>Medium</option>
+                <option value="high">High</option>
+              </select>
+            </label>
+          </div>
+          <div class="button-row">
+            <button class="primary" type="button" id="copyMemoryUpdate">Copy JSON</button>
+            <button type="button" id="saveMemoryAsEntry">Save as Profile Entry</button>
+          </div>
+          <pre class="json-preview" id="memoryPreview"></pre>
+        </section>
+
+        <section class="tab-panel" id="privacyTab">
+          <div class="panel-heading">
+            <h2>Privacy Boundary</h2>
+            <p>Use the console to keep memory narrow, explicit, and user-reviewable.</p>
+          </div>
+          <div class="privacy-grid">
+            <article>
+              <h3>Record</h3>
+              <ul>
+                <li>Learning style</li>
+                <li>Reasoning style</li>
+                <li>Decision style</li>
+                <li>Recurring blockers</li>
+                <li>Growth goals</li>
+              </ul>
+            </article>
+            <article>
+              <h3>Avoid</h3>
+              <ul>
+                <li>Raw private chats</li>
+                <li>Passwords or credentials</li>
+                <li>Precise location</li>
+                <li>Sensitive identity attributes</li>
+                <li>Health or emotional assumptions</li>
+              </ul>
+            </article>
+          </div>
+        </section>
+      </section>
+    </main>
+    <script src="./app.js"></script>
+  </body>
+</html>

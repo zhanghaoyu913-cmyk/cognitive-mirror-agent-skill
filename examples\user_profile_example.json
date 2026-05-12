@@ -1,0 +1,54 @@
+{
+  "profile_version": "0.1",
+  "user_id": "local-user",
+  "learning_style": [
+    {
+      "summary": "Prefers step-by-step explanations with concrete examples and implementation paths.",
+      "evidence": "Repeatedly asks to turn abstract ideas into executable project structures.",
+      "confidence": "medium",
+      "updated_at": "2026-05-12"
+    }
+  ],
+  "reasoning_style": [
+    {
+      "summary": "Often starts from system purpose and long-term human impact before implementation details.",
+      "evidence": "Framed the skill around AI overdependence, cognitive growth, and user agency.",
+      "confidence": "medium",
+      "updated_at": "2026-05-12"
+    }
+  ],
+  "decision_style": [],
+  "common_blockers": [
+    {
+      "summary": "Large ideas may need narrowing into MVP scope and explicit privacy boundaries.",
+      "evidence": "The concept includes behavior, thinking, life rhythm, AI usage, and growth mechanisms.",
+      "confidence": "medium",
+      "updated_at": "2026-05-12"
+    }
+  ],
+  "ai_usage_patterns": [
+    {
+      "summary": "Uses AI as a design partner for project framing and publication planning.",
+      "evidence": "Asked for a complete skill concept and GitHub-ready positioning.",
+      "confidence": "low",
+      "updated_at": "2026-05-12"
+    }
+  ],
+  "growth_goals": [
+    {
+      "summary": "Build systems that help humans retain and improve independent thinking while using AI.",
+      "evidence": "Explicitly described anti-dependence and thinking training as core goals.",
+      "confidence": "medium",
+      "updated_at": "2026-05-12"
+    }
+  ],
+  "assistant_adaptations": [
+    {
+      "summary": "When discussing important designs, include privacy boundaries, minimal experiments, and counterarguments.",
+      "evidence": "The project depends on avoiding surveillance framing and supporting divergent thought.",
+      "confidence": "medium",
+      "updated_at": "2026-05-12"
+    }
+  ],
+  "last_reviewed": "2026-05-12"
+}
